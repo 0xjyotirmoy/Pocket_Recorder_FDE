@@ -1221,4 +1221,4 @@ timeline
 | Challenge | Vyohm AI · Pocket Recorder Challenge brief and hand-off contract |
 | Sample audio | Synthetic role-plays generated with Windows text-to-speech; no real people |
 
-Licensed under the [MIT License](LICENSE).
+
