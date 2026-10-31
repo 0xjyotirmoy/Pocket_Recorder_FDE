@@ -1,0 +1,2 @@
+# Optional: offline transcription with faster-whisper (ASR_PROVIDER=local or ASR_FALLBACK=local)
+faster-whisper>=1.0

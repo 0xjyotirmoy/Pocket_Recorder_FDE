@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+/* Field logbook. Day = warm paper and ink. Night = darkroom charcoal.
+   One accent in both: signal red, the recorder's "on air" LED.
+   Every colour below is a token, so the whole UI follows the theme. */
+@theme {
+  --color-paper: #f5f2ea;
+  --color-surface: #fffdf8;
+  --color-ink: #17171a;
+  --color-muted: #6c6a66;
+  --color-rule: #e2ddd2;
+  --color-wash: #ece7dc;
+  --color-signal: #d93a2b;
+  --color-done: #2a7d4f;
+  --color-proc: #b7791f;
+  --color-abstain: #8a8780;
+  --font-serif: "Newsreader", Georgia, "Noto Serif Bengali", "Noto Serif Devanagari", serif;
+  --font-sans: "Inter", "Noto Sans Bengali", "Noto Sans Devanagari", "Nirmala UI", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* Night palette: used when the user picks Night, or picks Auto and the OS is dark */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-paper: #121110;
+    --color-surface: #1b1a18;
+    --color-ink: #ece8df;
+    --color-muted: #9b968c;
+    --color-rule: #2c2a26;
+    --color-wash: #23211e;
+    --color-signal: #ff5a47;
+    --color-done: #4cc483;
+    --color-proc: #e8b04f;
+    --color-abstain: #8e8a82;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --color-paper: #121110;
+  --color-surface: #1b1a18;
+  --color-ink: #ece8df;
+  --color-muted: #9b968c;
+  --color-rule: #2c2a26;
+  --color-wash: #23211e;
+  --color-signal: #ff5a47;
+  --color-done: #4cc483;
+  --color-proc: #e8b04f;
+  --color-abstain: #8e8a82;
+  color-scheme: dark;
+}
+:root[data-theme="light"] { color-scheme: light; }
+
+html, body, #root { min-height: 100%; }
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "cv11", "ss01";
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+/* faint paper grain (day only) */
+:root:not([data-theme="dark"]) body {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body { background-image: none; }
+}
+
+.tnum { font-variant-numeric: tabular-nums; }
+.label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+mark { background: color-mix(in oklab, var(--color-signal) 20%, transparent); color: inherit; padding: 0 2px; border-radius: 2px; }
+:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; border-radius: 3px; }
+::selection { background: color-mix(in oklab, var(--color-signal) 28%, transparent); }
+
+/* recorder "on air" lamp */
+.lamp { position: relative; display: inline-block; width: 8px; height: 8px; border-radius: 9999px; background: currentColor; }
+.lamp.live::after {
+  content: ""; position: absolute; inset: -4px; border-radius: 9999px; background: currentColor; opacity: 0.25;
+  animation: lamp 1.6s ease-out infinite;
+}
+@keyframes lamp { from { transform: scale(0.6); opacity: 0.35; } to { transform: scale(1.8); opacity: 0; } }
+
+@keyframes fade-in { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: none; } }
+.fade-in { animation: fade-in 0.35s ease-out both; }
+@keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+.pulse { animation: pulse-dot 1.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .fade-in, .pulse, .lamp.live::after { animation: none; } body { transition: none; } }

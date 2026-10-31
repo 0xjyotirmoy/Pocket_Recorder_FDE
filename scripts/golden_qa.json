@@ -1,0 +1,14 @@
+[
+  {"q": "What did we promise the vendor?", "expect": "grounded", "contains": ["purchase order"], "recording": "vendor"},
+  {"q": "When is the review call?", "expect": "grounded", "contains": ["5"], "recording": "vendor"},
+  {"q": "Who is blocked and on what?", "expect": "grounded", "contains": ["key"], "recording": "stand"},
+  {"q": "When is the client demo?", "expect": "grounded", "contains": ["monday"], "recording": "stand"},
+  {"q": "What's on my schedule next week?", "expect": "grounded"},
+  {"q": "How many sensor units were ordered?", "expect": "grounded", "contains": ["200"]},
+  {"q": "What is the price per unit?", "expect": "abstain"},
+  {"q": "Who is the CEO?", "expect": "abstain"},
+  {"q": "What did we decide about hiring?", "expect": "abstain"},
+  {"q": "Schedule the review call on 5 Nov at 3pm with Ravi", "expect": "action", "tool": "create_calendar_event", "contains": ["15:00"]},
+  {"q": "Draft a follow-up email to Ravi about the purchase order", "expect": "action", "tool": "draft_email", "contains": ["purchase order"]},
+  {"q": "schedule mail about the 3 nov vendor call", "expect": "action", "tool": "draft_email"}
+]
